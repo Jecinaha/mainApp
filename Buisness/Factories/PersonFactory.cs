@@ -9,16 +9,12 @@ public static class PersonFactory
     {
         return new PersonRegistrationForm();
     }
-
-    public static PersonEntity? Create(PersonRegistrationForm form)
+    public static PersonEntity Create(PersonRegistrationForm form)
     {
-
         try
         {
             return new PersonEntity()
-
             {
-                Id = Guid.NewGuid().ToString(),
                 FirstName = form.FirstName.Trim(),
                 LastName = form.LastName.Trim(),
                 Email = form.Email.Trim().ToLower(),
@@ -31,18 +27,20 @@ public static class PersonFactory
         catch (Exception ex)
         {
             Debug.WriteLine($"Error creating PersonEntity: {ex.Message}");
-            return null;
+            return null!;
         }
   
     }
 
-    public static Person? Create(PersonEntity entity)
+
+
+
+    public static Person Create(PersonEntity entity)
     {
         try
         {
             return new Person()
             {
-                Id = entity.Id,
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 Email = entity.Email,
@@ -56,7 +54,8 @@ public static class PersonFactory
         catch (Exception ex)
         {
             Debug.WriteLine($"Error creating User: {ex.Message}");
-            return null;
+            return null!;
+
         }
     }
 }

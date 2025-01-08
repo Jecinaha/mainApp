@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.Json;
 using mainApp.Interfaces;
 using mainApp.Models;
-using Newtonsoft.Json;
 
 namespace mainApp.Services;
 
@@ -11,29 +9,26 @@ public class FileService : IFileService
 {
     private readonly string _directoryPath;
     private readonly string _filePath;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
 
     public FileService(string directoryPath = "Data", string fileName = "List.json")
     {
         _directoryPath = directoryPath;
         _filePath = Path.Combine(_directoryPath, fileName);
+        _jsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
     }
-
-
 
     public bool SaveListToFile(List<Person> list)
     {
         try
         {
             if (!Directory.Exists(_directoryPath))
-            {
                 Directory.CreateDirectory(_directoryPath);
-            }
             
-            var json = JsonSerializer.Serialize(list, new JsonSerializerOptions { WriteIndented = true });
-
+            var json = JsonSerializer.Serialize(list, _jsonSerializerOptions);
             File.WriteAllText(_filePath, json);
-
             return true;
+
         }
         catch (Exception ex)
         {
@@ -42,24 +37,22 @@ public class FileService : IFileService
         }
     }
 
-
-
-
-
-
-    public string LoadListFromFile()
+    public List<Person> LoadListFromFile()
     {
-        if (File.Exists(_filePath))
+       try
         {
-            return File.ReadAllText(_filePath);
+            if (!File.Exists(_filePath))
+                return [];
+
+            var json = File.ReadAllText(_filePath);
+            var list = JsonSerializer.Deserialize<List<Person>>(json, _jsonSerializerOptions);
+            return list ?? [];
         }
-
-        return null!;
-
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return [];  
+        }
     }
-
-
-
-
 
 }

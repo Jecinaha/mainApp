@@ -1,9 +1,10 @@
 ﻿using mainApp.Models;
 
-namespace mainApp.Interfaces
+namespace Buisness.Interfaces
 {
     public interface IPersonService
     {
+        void ClearList();
         bool Create(PersonRegistrationForm form);
         IEnumerable<Person> GetAll();
     }

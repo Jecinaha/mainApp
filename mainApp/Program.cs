@@ -1,5 +1,9 @@
-﻿using mainApp.Services;
+﻿using mainApp.Interfaces;
+using mainApp.Services;
 
-var dialogs = new MenuService();
+IMenuService menuService = new MenuService();
 
-dialogs.ShowMenu();
+menuService.ShowMainMenu();
+
+
+
