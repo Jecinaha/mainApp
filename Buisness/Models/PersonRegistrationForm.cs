@@ -13,8 +13,6 @@ public class PersonRegistrationForm
     public string LastName { get; set; } = null!;
 
     [Required]
-    [EmailAddress]
-    [RegularExpression("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$:^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$", ErrorMessage = "Invalid email format.")]
     public string Email { get; set; } = null!;
 
     [Required]

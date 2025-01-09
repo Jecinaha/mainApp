@@ -18,22 +18,22 @@ public class FileService : IFileService
         _jsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
     }
 
-    public bool SaveListToFile(List<Person> list)
+    public void SaveListToFile(List<PersonEntity> persons)
     {
         try
         {
             if (!Directory.Exists(_directoryPath))
                 Directory.CreateDirectory(_directoryPath);
             
-            var json = JsonSerializer.Serialize(list, _jsonSerializerOptions);
+            var json = JsonSerializer.Serialize(persons, _jsonSerializerOptions);
             File.WriteAllText(_filePath, json);
-            return true;
+            
 
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return false;
+           
         }
     }
 
@@ -45,8 +45,8 @@ public class FileService : IFileService
                 return [];
 
             var json = File.ReadAllText(_filePath);
-            var list = JsonSerializer.Deserialize<List<Person>>(json, _jsonSerializerOptions);
-            return list ?? [];
+            var persons = JsonSerializer.Deserialize<List<Person>>(json, _jsonSerializerOptions);
+            return persons ?? [];
         }
         catch (Exception ex)
         {
@@ -54,5 +54,4 @@ public class FileService : IFileService
             return [];  
         }
     }
-
 }

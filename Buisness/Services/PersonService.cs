@@ -8,8 +8,8 @@ namespace mainApp.Services;
 
 public class PersonService : FileService, IPersonService
 {
-    private readonly List<PersonEntity> _persons = [];
-    private readonly FileService _fileService = new FileService();
+    private List<PersonEntity> _persons = [];
+    private readonly FileService _fileService = new();
 
     public bool Create(PersonRegistrationForm form)
     {
@@ -19,6 +19,7 @@ public class PersonService : FileService, IPersonService
             personEntity.Id = UniqueIdentifierGenerator.GenerateUniqueId();
 
             _persons.Add(personEntity);
+            _fileService.SaveListToFile(_persons);
             return true;
         }
         catch (Exception ex)
@@ -35,9 +36,9 @@ public class PersonService : FileService, IPersonService
 
     public IEnumerable<Person> GetAll()
     {
+        _persons = _fileService.LoadListFromFile();
         return _persons.Select(PersonFactory.Create);
     }
-
 }
 
 

@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.ComponentModel.DataAnnotations;
+using System;
+using System.Security.Cryptography.X509Certificates;
 using mainApp.Factories;
 using mainApp.Models;
 
@@ -26,13 +28,15 @@ namespace mainApp.Services
         public static string MainMenu()
         {
             Console.Clear();
-            Console.WriteLine("----------MAIN MENU------------");
-            Console.WriteLine($"{"1.",-5} Create");
-            Console.WriteLine($"{"2.",-5} Wiew");
-            Console.WriteLine($"{"3.",-5} Download");
-            Console.WriteLine($"{"4.",-5} Quit Application");
-            Console.WriteLine("----------------------");
-            Console.Write("Choose your option: ");
+            Console.WriteLine("----------Meny------------");
+            Console.WriteLine("                           ");
+            Console.WriteLine($"{"1.",-5} Lägg till personer");
+            Console.WriteLine($"{"2.",-5} Gå till adressboken");
+            Console.WriteLine($"{"3.",-5} Ladda ner adressboken");
+            Console.WriteLine($"{"4.",-5} Avsluta");
+            Console.WriteLine("                           ");
+            Console.WriteLine("**************************");
+            Console.Write("Välj ditt alternativ: ");
             var option = Console.ReadLine()!;
 
             return option;
@@ -67,40 +71,45 @@ namespace mainApp.Services
 
             var personRegistrationForm = PersonFactory.Create();
 
-
-            Console.Write("Enter your first name: ");
-            personRegistrationForm.FirstName = Console.ReadLine()!;
-
-            Console.Write("Enter your last name: ");
-            personRegistrationForm.FirstName = Console.ReadLine()!;
-
-            Console.Write("Enter your email: ");
-            personRegistrationForm.FirstName = Console.ReadLine()!;
-
-            Console.Write("Enter your phone number: ");
-            personRegistrationForm.FirstName = Console.ReadLine()!;
-
-            Console.Write("Enter your street address: ");
-            personRegistrationForm.FirstName = Console.ReadLine()!;
-
-            Console.Write("Enter your post number: ");
-            personRegistrationForm.FirstName = Console.ReadLine()!;
-
-            Console.Write("Enter the town you live in: ");
+            personRegistrationForm.FirstName = PromptAndValidate("Skriv in ditt förnamn : ", nameof(PersonRegistrationForm.FirstName));
+            personRegistrationForm.LastName = PromptAndValidate("Skriv in ditt efternamn: ", nameof(PersonRegistrationForm.LastName));
+            personRegistrationForm.Email = PromptAndValidate("Skriv in din email: ", nameof(PersonRegistrationForm.Email));
+            personRegistrationForm.PhoneNumber = PromptAndValidate("Skriv in ditt telefonnummer: ", nameof(PersonRegistrationForm.PhoneNumber));
+            personRegistrationForm.StreetAddress = PromptAndValidate("Skriv in din gatuadress: ", nameof(PersonRegistrationForm.StreetAddress));
+            personRegistrationForm.PostCode = PromptAndValidate("Skriv in gatuadressens postkod : ", nameof(PersonRegistrationForm.PostCode));
+            personRegistrationForm.Town = PromptAndValidate("Skriv in staden du bor i: ", nameof(PersonRegistrationForm.Town));
             personRegistrationForm.FirstName = Console.ReadLine()!;
 
             bool result = _personService.Create(personRegistrationForm);
             
             if (result)
             {
-                OutputDialog("Person was created successfully");
+                OutputDialog("Personen är tillagd i din adresslista");
             }
             else
             {
-                OutputDialog("Person was not created");
+                OutputDialog("Personen gick inte att lägga till i din adresslista");
             }
 
         }
+
+        public string PromptAndValidate(string prompt, string propertyName)
+        {
+            while (true)
+            {
+                Console.WriteLine();
+                Console.WriteLine(prompt);
+                var input = Console.ReadLine() ?? string.Empty;
+
+                var result = new List<ValidationResult>();
+                var context = new ValidationContext(new PersonRegistrationForm()) { MemberName = propertyName };
+
+                if (Validator.TryValidateProperty(input, context, result))
+                    return input;
+                Console.WriteLine($"{result[0].ErrorMessage}. Försök igen");
+            }
+        }
+
 
         public void WiewAllPersons()
         {
@@ -110,13 +119,13 @@ namespace mainApp.Services
 
             foreach (var person in persons)
             {
-                Console.WriteLine("********** Wiew all persons **********\n");
-                Console.WriteLine($"{"´Name:",-5}{person.FirstName} {person.LastName}");
-                Console.WriteLine($"{"Email:",-5}{person.Email}");
-                Console.WriteLine($"{"Street address:",-5}{person.StreetAddress}");
-                Console.WriteLine($"{"Phone number:",-5}{person.PhoneNumber}");
-                Console.WriteLine($"{"Post code:",-5}{person.PostCode}");
-                Console.WriteLine($"{"Town:",-5}{person.Town}");
+                Console.WriteLine("**********Min adresslista**********\n");
+                Console.WriteLine($"{"Namn: ",-5}{person.FirstName} {person.LastName}");
+                Console.WriteLine($"{"Email: ",-5}{person.Email}");
+                Console.WriteLine($"{"Telefonnummer: ",-5}{person.PhoneNumber}");
+                Console.WriteLine($"{"Gatuadress: ",-5}{person.StreetAddress}");
+                Console.WriteLine($"{"Postkod: ",-5}{person.PostCode}");
+                Console.WriteLine($"{"Stad: ",-5}{person.Town}");
             }
             Console.ReadKey();
         }
@@ -128,14 +137,7 @@ namespace mainApp.Services
         }
         public static void QuitOption()
         {
-            Console.Clear();
-            Console.WriteLine("Do You wanna quit this application (y/n): ");
-            var option = Console.ReadLine()!;
-
-            if (option.Equals("y", StringComparison.CurrentCultureIgnoreCase))
-            {
                 Environment.Exit(0);
-            }
         }
 
         public static void InvalidOption()

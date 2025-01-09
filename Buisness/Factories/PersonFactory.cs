@@ -29,11 +29,7 @@ public static class PersonFactory
             Debug.WriteLine($"Error creating PersonEntity: {ex.Message}");
             return null!;
         }
-  
     }
-
-
-
 
     public static Person Create(PersonEntity entity)
     {
