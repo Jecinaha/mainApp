@@ -37,7 +37,7 @@ public class FileService : IFileService
         }
     }
 
-    public List<Person> LoadListFromFile()
+    public List<PersonEntity> LoadListFromFile()
     {
        try
         {
@@ -45,7 +45,7 @@ public class FileService : IFileService
                 return [];
 
             var json = File.ReadAllText(_filePath);
-            var persons = JsonSerializer.Deserialize<List<Person>>(json, _jsonSerializerOptions);
+            var persons = JsonSerializer.Deserialize<List<PersonEntity>>(json, _jsonSerializerOptions);
             return persons ?? [];
         }
         catch (Exception ex)

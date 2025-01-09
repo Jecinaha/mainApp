@@ -4,5 +4,5 @@ namespace mainApp.Interfaces;
 
 public interface IFileReader
 {
-    List<Person> LoadListFromFile();
+    List<PersonEntity> LoadListFromFile();
 }

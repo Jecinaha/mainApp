@@ -6,6 +6,6 @@ namespace Buisness.Interfaces
     {
         void ClearList();
         bool Create(PersonRegistrationForm form);
-        IEnumerable<PersonEntity> GetAll();
+        IEnumerable<Person> GetAll();
     }
 }
