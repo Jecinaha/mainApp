@@ -5,7 +5,7 @@ using Buisness.Interfaces;
 
 namespace mainApp.Services
 {
-    public class MenuService(PersonService personService) : IMenuService
+    public class MenuService(IPersonService personService) : IMenuService
     {
         private readonly IPersonService _personService = personService;
 
@@ -79,7 +79,7 @@ namespace mainApp.Services
             personRegistrationForm.FirstName = Console.ReadLine()!;
 
             bool result = _personService.Create(personRegistrationForm);
-            
+
             if (result)
             {
                 OutputDialog("Personen är tillagd i din adresslista");
@@ -137,7 +137,7 @@ namespace mainApp.Services
         }
         public static void QuitOption()
         {
-                Environment.Exit(0);
+            Environment.Exit(0);
         }
 
         public static void InvalidOption()
@@ -154,6 +154,9 @@ namespace mainApp.Services
             Console.ReadKey();
         }
 
-
+        public void ShowMenuS()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

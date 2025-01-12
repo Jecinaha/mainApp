@@ -2,14 +2,15 @@
 using Buisness.Helpers;
 using Buisness.Interfaces;
 using mainApp.Factories;
+using mainApp.Interfaces;
 using mainApp.Models;
 
 namespace mainApp.Services;
 
-public class PersonService(FileService fileService) : FileService, IPersonService
+public class PersonService(IFileService fileService): IPersonService
 {
     private List<PersonEntity> _persons = [];
-    private readonly FileService _fileService = fileService;
+    private readonly IFileService _fileService = fileService;
 
     public bool Create(PersonRegistrationForm form)
     {
