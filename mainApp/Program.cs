@@ -1,5 +1,4 @@
-﻿using System.Security.Authentication.ExtendedProtection;
-using Buisness.Interfaces;
+﻿using Buisness.Interfaces;
 using mainApp.Interfaces;
 using mainApp.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,5 +12,7 @@ serviceCollection.AddSingleton<IMenuService, MenuService>();
 var serviceProvider = serviceCollection.BuildServiceProvider();
 
 var menuService = serviceProvider.GetService<IMenuService>();
+
+menuService?.ShowMainMenu();
 
 
