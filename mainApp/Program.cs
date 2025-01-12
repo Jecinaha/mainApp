@@ -8,11 +8,10 @@ using Microsoft.Extensions.DependencyInjection;
 var serviceCollection = new ServiceCollection();
 serviceCollection.AddSingleton<IFileService>(new FileService ());
 serviceCollection.AddSingleton<IPersonService, PersonService>();
-serviceCollection.AddSingleton<MenuService>();
 
 var serviceProvider = serviceCollection.BuildServiceProvider();
-var menuService = serviceProvider.GetRequiredService<MenuService>();
+serviceCollection.AddSingleton<IMenuService, MenuService>();
 
+var menuService = serviceProvider.GetService<IMenuService>();
 
-
-menuService.ShowMainMenu();
+menuService?.ShowMainMenu();
