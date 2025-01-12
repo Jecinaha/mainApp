@@ -20,7 +20,7 @@ namespace mainApp.Services
                 }
                 else
                 {
-                    Console.WriteLine("du måste ange ett giltigt alternativ");
+                    Console.WriteLine("Du måste ange ett giltigt alternativ!");
                     Console.ReadKey();
                 }
             }
@@ -29,12 +29,11 @@ namespace mainApp.Services
         {
             Console.Clear();
             Console.WriteLine("................MENY.................\n");
-            Console.WriteLine($"{"1",-5} Lägg till personer");
-            Console.WriteLine($"{"2",-5} Gå till adressboken");
-            Console.WriteLine($"{"3",-5} Ladda ner adressboken");
-            Console.WriteLine($"{"4",-5} Avsluta\n");
+            Console.WriteLine($"{"  1",-3} Lägg till personer\n");
+            Console.WriteLine($"{"  2",-3} Gå till adresslistan\n");
+            Console.WriteLine($"{"  3",-3} Avsluta\n");
             Console.WriteLine(".....................................\n");
-            Console.Write("Välj ditt alternativ: ");
+            Console.Write("  Välj ditt alternativ: ");
             var option = Console.ReadLine()!;
 
             return option;
@@ -51,9 +50,6 @@ namespace mainApp.Services
                     WiewAllPersons();
                     break;
                 case "3":
-                    SaveAllPersons();
-                    break;
-                case "4":
                     QuitOption();
                     break;
                 default:
@@ -76,13 +72,12 @@ namespace mainApp.Services
             personRegistrationForm.StreetAddress = PromptAndValidate("Skriv in din gatuadress: ", nameof(PersonRegistrationForm.StreetAddress));
             personRegistrationForm.PostCode = PromptAndValidate("Skriv in postnummer: ", nameof(PersonRegistrationForm.PostCode));
             personRegistrationForm.Town = PromptAndValidate("Skriv in ort: ", nameof(PersonRegistrationForm.Town));
-            personRegistrationForm.FirstName = Console.ReadLine()!;
 
             bool result = _personService.Create(personRegistrationForm);
 
             if (result)
             {
-                OutputDialog("Personen är tillagd i din adresslista");
+                OutputDialog("Personen har nu lagts till i din adresslista");
             }
             else
             {
@@ -114,25 +109,18 @@ namespace mainApp.Services
             var persons = _personService.GetAll();
 
             Console.Clear();
-            Console.WriteLine("............MIN ADRESSLISTA............\n");
+            Console.WriteLine("...........MIN ADRESSLISTA...........");
 
             foreach (var person in persons)
             {
-                Console.WriteLine($"\n{"Id: ",-5}{person.Id}");
-                Console.WriteLine($"{"Namn: ",-5}{person.FirstName} {person.LastName}");
+                Console.WriteLine($"{"\nNamn: ",-5}{person.FirstName} {person.LastName}");
                 Console.WriteLine($"{"Email: ",-5}{person.Email}");
                 Console.WriteLine($"{"Telefonnummer: ",-5}{person.PhoneNumber}");
                 Console.WriteLine($"{"Gatuadress: ",-5}{person.StreetAddress}");
-                Console.WriteLine($"{"Postkod: ",-5}{person.PostCode}");
-                Console.WriteLine($"{"Stad: ",-5}{person.Town}");
+                Console.WriteLine($"{"Postnummer: ",-5}{person.PostCode}");
+                Console.WriteLine($"{"Ort: ",-5}{person.Town}");
                 Console.WriteLine("\n.....................................");
             }
-            Console.ReadKey();
-        }
-
-        public static void SaveAllPersons()
-        {
-            Console.Clear();
             Console.ReadKey();
         }
         public static void QuitOption()
@@ -152,11 +140,6 @@ namespace mainApp.Services
             Console.Clear();
             Console.WriteLine(message);
             Console.ReadKey();
-        }
-
-        public void ShowMenuS()
-        {
-            throw new NotImplementedException();
         }
     }
 }

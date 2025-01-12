@@ -53,6 +53,7 @@ public class PersonFactory_Tests
         //Arrange
         var personEntity = new PersonEntity()
         {
+            Id = "Id", 
             FirstName = "First name",
             LastName = "Last name",
             Email = "email",

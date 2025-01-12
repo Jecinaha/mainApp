@@ -29,7 +29,7 @@ public static class PersonFactory
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error creating PersonEntity: {ex.Message}");
+            Debug.WriteLine($"Problem att skapa PersonEntity: {ex.Message}");
             return null!;
         }
     }
@@ -52,7 +52,7 @@ public static class PersonFactory
 
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error creating User: {ex.Message}");
+            Debug.WriteLine($"Problem att skapa Person: {ex.Message}");
             return null!;
 
         }

@@ -4,30 +4,32 @@ namespace mainApp.Models;
 
 public class PersonRegistrationForm
 {
-    [Required]
-    [MinLength(2, ErrorMessage = "Must be at lest 2 characters long.")]
+    [Required (ErrorMessage = "Du måste fylla i ett förnamn")]
+    [MinLength(2, ErrorMessage = "Det måste vara minst 2 bokstäver")]
     public string FirstName { get; set; } = null!;
 
-    [Required]
-    [MinLength(2, ErrorMessage = "Must be at lest 2 characters long.")]
+    [Required (ErrorMessage = "Du måste fylla i ett efternamn")]
+    [MinLength(2, ErrorMessage = "Det måste vara minst 2 bokstäver")]
     public string LastName { get; set; } = null!;
 
-    [Required]
-    [EmailAddress]
+    [Required(ErrorMessage = "Du måste fylla i en emailadress")]
+    [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Emailen måste vara i rätt format")]
     public string Email { get; set; } = null!;
 
-    [Required]
+    [Required(ErrorMessage = "Du måste fylla i ett telefonnummer")]
+    [MinLength(2, ErrorMessage = "Det måste vara minst 2 bokstäver")]
     public string PhoneNumber { get; set; } = null!;
 
-    [Required]
-    [MinLength(2, ErrorMessage = "Must be at lest 2 characters long.")]
+    [Required(ErrorMessage = "Du måste fylla i en gatuadress")]
+    [MinLength(2, ErrorMessage = "Det måste vara minst 2 bokstäver")]
     public string StreetAddress { get; set; } = null!;
 
-    [Required] 
+    [Required(ErrorMessage = "Du måste fylla i ett postnummer")]
+    [MinLength(2, ErrorMessage = "Det måste vara minst 2 siffror")]
     public string PostCode { get; set; } = null!;
 
-    [Required]
-    [MinLength(2, ErrorMessage = "Must be at lest 2 characters long.")]
+    [Required(ErrorMessage = "Du måste fylla i en ort")]
+    [MinLength(2, ErrorMessage = "Det måste vara minst 2 bokstäver")]
     public string Town { get; set; } = null!;
 
 }

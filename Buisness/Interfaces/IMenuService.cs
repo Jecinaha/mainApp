@@ -6,7 +6,6 @@
         void MenuOptionSelector(string option);
         string PromptAndValidate(string prompt, string propertyName);
         void ShowMainMenu();
-        void ShowMenuS();
         void WiewAllPersons();
     }
 }
