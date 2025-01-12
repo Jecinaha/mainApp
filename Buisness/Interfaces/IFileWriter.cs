@@ -4,5 +4,5 @@ namespace mainApp.Interfaces;
 
 public interface IFileWriter
  {
-    void SaveListToFile(List<PersonEntity> persons);
+    bool SaveListToFile(List<PersonEntity> persons);
  }

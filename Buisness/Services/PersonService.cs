@@ -6,17 +6,17 @@ using mainApp.Models;
 
 namespace mainApp.Services;
 
-public class PersonService : FileService, IPersonService
+public class PersonService(FileService fileService) : FileService, IPersonService
 {
     private List<PersonEntity> _persons = [];
-    private readonly FileService _fileService = new();
+    private readonly FileService _fileService = fileService;
 
     public bool Create(PersonRegistrationForm form)
     {
         try
         {
             var personEntity = PersonFactory.Create(form);
-            personEntity.Id = UniqueIdentifierGenerator.GenerateUniqueId();
+            personEntity.Id = IdentifierGenerator.GenerateId();
 
             _persons.Add(personEntity);
             _fileService.SaveListToFile(_persons);

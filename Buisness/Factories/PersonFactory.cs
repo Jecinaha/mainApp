@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Buisness.Helpers;
 using mainApp.Models;
 
 namespace mainApp.Factories;
@@ -14,7 +15,9 @@ public static class PersonFactory
         try
         {
             return new PersonEntity()
+
             {
+                Id = IdentifierGenerator.GenerateId(),
                 FirstName = form.FirstName.Trim(),
                 LastName = form.LastName.Trim(),
                 Email = form.Email.Trim().ToLower(),

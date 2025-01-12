@@ -2,9 +2,9 @@
 
 namespace Buisness.Helpers;
 
-public static class UniqueIdentifierGenerator
+public static class IdentifierGenerator
 {
-    public static string GenerateUniqueId()
+    public static string GenerateId()
     {
         try
         {

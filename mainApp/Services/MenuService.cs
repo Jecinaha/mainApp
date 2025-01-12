@@ -1,14 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System;
-using System.Security.Cryptography.X509Certificates;
 using mainApp.Factories;
 using mainApp.Models;
+using Buisness.Interfaces;
 
 namespace mainApp.Services
 {
-    public class MenuService : IMenuService
+    public class MenuService(PersonService personService) : IMenuService
     {
-        private readonly PersonService _personService = new();
+        private readonly IPersonService _personService = personService;
+
         public void ShowMainMenu()
         {
             while (true)
@@ -20,7 +20,7 @@ namespace mainApp.Services
                 }
                 else
                 {
-                    Console.WriteLine("You must enter a valid option");
+                    Console.WriteLine("du måste ange ett giltigt alternativ");
                     Console.ReadKey();
                 }
             }
@@ -28,14 +28,12 @@ namespace mainApp.Services
         public static string MainMenu()
         {
             Console.Clear();
-            Console.WriteLine("----------Meny------------");
-            Console.WriteLine("                           ");
-            Console.WriteLine($"{"1.",-5} Lägg till personer");
-            Console.WriteLine($"{"2.",-5} Gå till adressboken");
-            Console.WriteLine($"{"3.",-5} Ladda ner adressboken");
-            Console.WriteLine($"{"4.",-5} Avsluta");
-            Console.WriteLine("                           ");
-            Console.WriteLine("**************************");
+            Console.WriteLine("................MENY.................\n");
+            Console.WriteLine($"{"1",-5} Lägg till personer");
+            Console.WriteLine($"{"2",-5} Gå till adressboken");
+            Console.WriteLine($"{"3",-5} Ladda ner adressboken");
+            Console.WriteLine($"{"4",-5} Avsluta\n");
+            Console.WriteLine(".....................................\n");
             Console.Write("Välj ditt alternativ: ");
             var option = Console.ReadLine()!;
 
@@ -71,13 +69,13 @@ namespace mainApp.Services
 
             var personRegistrationForm = PersonFactory.Create();
 
-            personRegistrationForm.FirstName = PromptAndValidate("Skriv in ditt förnamn : ", nameof(PersonRegistrationForm.FirstName));
+            personRegistrationForm.FirstName = PromptAndValidate("Skriv in ditt förnamn: ", nameof(PersonRegistrationForm.FirstName));
             personRegistrationForm.LastName = PromptAndValidate("Skriv in ditt efternamn: ", nameof(PersonRegistrationForm.LastName));
             personRegistrationForm.Email = PromptAndValidate("Skriv in din email: ", nameof(PersonRegistrationForm.Email));
             personRegistrationForm.PhoneNumber = PromptAndValidate("Skriv in ditt telefonnummer: ", nameof(PersonRegistrationForm.PhoneNumber));
             personRegistrationForm.StreetAddress = PromptAndValidate("Skriv in din gatuadress: ", nameof(PersonRegistrationForm.StreetAddress));
-            personRegistrationForm.PostCode = PromptAndValidate("Skriv in gatuadressens postkod : ", nameof(PersonRegistrationForm.PostCode));
-            personRegistrationForm.Town = PromptAndValidate("Skriv in staden du bor i: ", nameof(PersonRegistrationForm.Town));
+            personRegistrationForm.PostCode = PromptAndValidate("Skriv in postnummer: ", nameof(PersonRegistrationForm.PostCode));
+            personRegistrationForm.Town = PromptAndValidate("Skriv in ort: ", nameof(PersonRegistrationForm.Town));
             personRegistrationForm.FirstName = Console.ReadLine()!;
 
             bool result = _personService.Create(personRegistrationForm);
@@ -116,16 +114,18 @@ namespace mainApp.Services
             var persons = _personService.GetAll();
 
             Console.Clear();
+            Console.WriteLine("............MIN ADRESSLISTA............\n");
 
             foreach (var person in persons)
             {
-                Console.WriteLine("**********Min adresslista**********\n");
+                Console.WriteLine($"\n{"Id: ",-5}{person.Id}");
                 Console.WriteLine($"{"Namn: ",-5}{person.FirstName} {person.LastName}");
                 Console.WriteLine($"{"Email: ",-5}{person.Email}");
                 Console.WriteLine($"{"Telefonnummer: ",-5}{person.PhoneNumber}");
                 Console.WriteLine($"{"Gatuadress: ",-5}{person.StreetAddress}");
                 Console.WriteLine($"{"Postkod: ",-5}{person.PostCode}");
                 Console.WriteLine($"{"Stad: ",-5}{person.Town}");
+                Console.WriteLine("\n.....................................");
             }
             Console.ReadKey();
         }
@@ -143,7 +143,7 @@ namespace mainApp.Services
         public static void InvalidOption()
         {
             Console.Clear();
-            Console.WriteLine("You must enter a valid option");
+            Console.WriteLine("Du måste ange ett giltigt alternativ!");
             Console.ReadKey();
         }
 

@@ -18,7 +18,7 @@ public class FileService : IFileService
         _jsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
     }
 
-    public void SaveListToFile(List<PersonEntity> persons)
+    public bool SaveListToFile(List<PersonEntity> persons)
     {
         try
         {
@@ -27,13 +27,14 @@ public class FileService : IFileService
             
             var json = JsonSerializer.Serialize(persons, _jsonSerializerOptions);
             File.WriteAllText(_filePath, json);
+            return true;
             
 
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-           
+           return false;    
         }
     }
 
